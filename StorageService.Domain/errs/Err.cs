@@ -47,7 +47,6 @@ public class Err
 
         // Business logic
         public const ushort Conflict = 1201;
-        public const ushort LimitExceeded = 1203;
         public const ushort NotFound = 1204;
 
         // Auth

@@ -13,5 +13,13 @@ internal class TransportCompanyConfigurations: IEntityTypeConfiguration<Transpor
             .Property(x => x.Id)
             .ValueGeneratedNever()
             .HasGuidBasedIdConversion();
+        
+        builder.Property(x => x.Name);
+        builder.Property(x => x.CreatedAt);
+        
+        builder
+            .Property(x => x.AdminId)
+            .ValueGeneratedNever()
+            .HasGuidBasedIdConversion();
     }
 }

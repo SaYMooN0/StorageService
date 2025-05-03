@@ -10,7 +10,6 @@ public static class ErrExtensions
 
         // Business logic
         Err.ErrCodes.Conflict => StatusCodes.Status409Conflict,
-        Err.ErrCodes.LimitExceeded => StatusCodes.Status400BadRequest,
         Err.ErrCodes.NotFound => StatusCodes.Status404NotFound,
 
         // Auth
@@ -19,13 +18,5 @@ public static class ErrExtensions
 
         // Default fallback
         _ => StatusCodes.Status500InternalServerError
-    };
-
-    public static bool IsClientCaused(this Err e) => e.Code switch {
-        >= 1100 and < 1200 => true,
-        Err.ErrCodes.Conflict => true,
-        Err.ErrCodes.LimitExceeded => true,
-        Err.ErrCodes.NotFound => true,
-        _ => false
     };
 }

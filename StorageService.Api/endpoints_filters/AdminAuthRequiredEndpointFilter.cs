@@ -4,11 +4,11 @@ using StorageService.Domain.errs;
 
 namespace StorageService.Api.endpoints_filters;
 
-internal class AuthenticationRequiredEndpointFilter : IEndpointFilter
+internal class AdminAuthRequiredEndpointFilter : IEndpointFilter
 {
     private readonly JwtTokenConfig _jwtConfig;
 
-    public AuthenticationRequiredEndpointFilter(JwtTokenConfig config) {
+    public AdminAuthRequiredEndpointFilter(JwtTokenConfig config) {
         _jwtConfig = config;
     }
 
@@ -17,7 +17,9 @@ internal class AuthenticationRequiredEndpointFilter : IEndpointFilter
         var userIdOrErr = httpContext.ParseAdminIdFromJwtToken(_jwtConfig);
 
         if (userIdOrErr.IsErr(out var err)) {
-            return CustomResults.ErrorResponse(ErrFactory.AuthRequired("Access denied. Authentication required"));
+            return CustomResults.ErrorResponse(ErrFactory.AuthRequired(
+                "Access denied. Admin authentication required. Please log into your account"
+            ));
         }
 
         httpContext.Items["adminId"] = userIdOrErr.AsSuccess();

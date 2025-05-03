@@ -25,9 +25,6 @@ public static class ErrFactory
         public static Err Conflict(string message = "Conflict occurred", string? details = null) =>
             new(message, Err.ErrCodes.Conflict, details);
 
-        public static Err LimitExceeded(string message = "Limit exceeded", string? details = null) =>
-            new(message, Err.ErrCodes.LimitExceeded, details);
-
         public static Err NotFound(string message = "Not found", string? details = null) =>
             new(message, Err.ErrCodes.NotFound, details);
 

@@ -21,7 +21,8 @@ public static class HttpContextExtensions
 
         throw new InvalidCastException("Request type mismatch");
     }
-    public static CompanyAdminId GetAuthenticatedUserId(this HttpContext context) {
+
+    public static CompanyAdminId GetAuthenticatedAdminId(this HttpContext context) {
         if (!context.Items.TryGetValue("adminId", out var userIdObj) || userIdObj is not CompanyAdminId id) {
             throw new UnauthorizedAccessException("User is not authenticated or AppUserId is missing");
         }
@@ -29,8 +30,9 @@ public static class HttpContextExtensions
         return id;
     }
 
-    public static ErrOr<CompanyAdminId>
-        ParseAdminIdFromJwtToken(this HttpContext httpContext, JwtTokenConfig jwtConfig) {
+    public static ErrOr<CompanyAdminId> ParseAdminIdFromJwtToken(
+        this HttpContext httpContext, JwtTokenConfig jwtConfig
+    ) {
         if (!httpContext.Request.Cookies.TryGetValue("_token", out var token) || string.IsNullOrEmpty(token)) {
             return ErrFactory.AuthRequired(
                 "Company admin is not authenticated",

@@ -11,13 +11,15 @@ public class Storage : Entity<StorageId>
     private readonly List<ProductCountChangedRecord> _productCountChangedHistory;
     private readonly List<ProductRecord> _products;
     public CompanyAdminId AdminId { get; }
+    public DateTime CreatedAt { get; }
 
-    private Storage(StorageId id, CompanyAdminId adminId, string name) {
+    private Storage(StorageId id, CompanyAdminId adminId, string name, DateTime createdAt) {
         Id = id;
         AdminId = adminId;
         Name = name;
         _productCountChangedHistory = [];
         _products = [];
+        CreatedAt = createdAt;
     }
 
     public static ErrOr<Storage> CreateNew(string name, CompanyAdminId adminId) {
@@ -25,10 +27,9 @@ public class Storage : Entity<StorageId>
             return err;
         }
 
-        return new Storage(StorageId.CreateNew(), adminId, name);
+        return new Storage(StorageId.CreateNew(), adminId, name, DateTime.UtcNow);
     }
 
-    public IReadOnlyList<ProductRecord> Products => _products.ToList();
 
     public uint AddProduct(ProductId productId, uint count) {
         ProductRecord? record = _products.FirstOrDefault(p => p.Id == productId);

@@ -6,10 +6,12 @@ public static class EndpointRouteBuilderExtensions
 {
     public static RouteHandlerBuilder WithRequestValidation<T>(this RouteHandlerBuilder builder)
         where T : class, IRequestWithValidationNeeded {
-        return builder.AddEndpointFilter<RequestValidationRequiredEndpointFilter<T>>();
+        return builder
+            .Accepts<T>("application/json")
+            .AddEndpointFilter<RequestValidationRequiredEndpointFilter<T>>();
     }
 
-    public static RouteHandlerBuilder WithAuthenticationRequired(this RouteHandlerBuilder builder) {
-        return builder.AddEndpointFilter<AuthenticationRequiredEndpointFilter>();
+    public static RouteHandlerBuilder WithAdminAuthRequired(this RouteHandlerBuilder builder) {
+        return builder.AddEndpointFilter<AdminAuthRequiredEndpointFilter>();
     }
 }
