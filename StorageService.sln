@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageService.Domain", "StorageService.Domain\StorageService.Domain.csproj", "{70EE964A-2E5D-4A7A-9917-43382232DAFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageService.Infrastructure", "StorageService.Infrastructure\StorageService.Infrastructure.csproj", "{6B7C03E9-49D6-454D-811F-B0C624B82297}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageService.Api", "StorageService.Api\StorageService.Api.csproj", "{2B6C3C5C-26FD-4814-9C30-3E6449A740F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{70EE964A-2E5D-4A7A-9917-43382232DAFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70EE964A-2E5D-4A7A-9917-43382232DAFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70EE964A-2E5D-4A7A-9917-43382232DAFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70EE964A-2E5D-4A7A-9917-43382232DAFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B7C03E9-49D6-454D-811F-B0C624B82297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B7C03E9-49D6-454D-811F-B0C624B82297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B7C03E9-49D6-454D-811F-B0C624B82297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B7C03E9-49D6-454D-811F-B0C624B82297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B6C3C5C-26FD-4814-9C30-3E6449A740F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B6C3C5C-26FD-4814-9C30-3E6449A740F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B6C3C5C-26FD-4814-9C30-3E6449A740F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B6C3C5C-26FD-4814-9C30-3E6449A740F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
