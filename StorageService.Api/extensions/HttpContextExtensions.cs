@@ -88,4 +88,12 @@ public static class HttpContextExtensions
 
         return new StorageId(guid);
     }
+    public static TransportCompanyId GetTransportCompanyIdFromRoute(this HttpContext context) {
+        var productIdString = context.Request.RouteValues["transportCompanyId"]?.ToString() ?? "";
+        if (!Guid.TryParse(productIdString, out var guid)) {
+            throw new Exception($"Couldn't parse transport company id from route. Given value: {productIdString}");
+        }
+
+        return new TransportCompanyId(guid);
+    }
 }

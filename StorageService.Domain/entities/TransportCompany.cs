@@ -9,7 +9,7 @@ public class TransportCompany : Entity<TransportCompanyId>
 {
     private TransportCompany() { }
     public CompanyAdminId AdminId { get; }
-    public string Name { get; }
+    public string Name { get;private set; }
     public DateTime CreatedAt { get; }
 
 
@@ -27,4 +27,11 @@ public class TransportCompany : Entity<TransportCompanyId>
         return new TransportCompany(TransportCompanyId.CreateNew(), adminId, name, DateTime.UtcNow);
     }
 
+    public ErrOrNothing Rename(string newName) {
+        if (TransportCompanyRules.CheckCompanyNameForErrs(newName).IsErr(out var err)) {
+            return err;
+        }
+        Name = newName;
+        return ErrOrNothing.Nothing;
+    }
 }

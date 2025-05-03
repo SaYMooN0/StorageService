@@ -33,7 +33,7 @@ public class CompanyAdmin : Entity<CompanyAdminId>
 
     //to create new copy so the _storages is immutable outside of CompanyAdmin
     public IReadOnlyList<Storage> Storages => _storages.ToList();
-    public IReadOnlyList<TransportCompany> TransportCompanies => _transportCompanies.ToList();    //same
+    public IReadOnlyList<TransportCompany> TransportCompanies => _transportCompanies.ToList(); //same
 
     public ErrOr<Storage> CreateStorage(string storageName) {
         var res = Storage.CreateNew(storageName, this.Id);
@@ -41,7 +41,51 @@ public class CompanyAdmin : Entity<CompanyAdminId>
             return err;
         }
 
+        if (_storages.Any(s => s.Name == storageName)) {
+            return ErrFactory.Conflict("You cannot have more than one storage with the same name");
+        }
+
         _storages.Add(res.AsSuccess());
         return res.AsSuccess();
+    }
+
+    public ErrOr<TransportCompany> CreateTransportCompany(string companyName) {
+        var res = TransportCompany.CreateNew(companyName, this.Id);
+        if (res.IsErr(out var err)) {
+            return err;
+        }
+
+        if (_transportCompanies.Any(s => s.Name == companyName)) {
+            return ErrFactory.Conflict("You cannot have more than one company with the same name");
+        }
+
+        _transportCompanies.Add(res.AsSuccess());
+        return res.AsSuccess();
+    }
+
+    public ErrOr<string> RenameTransportCompany(TransportCompanyId transportCompanyId, string newName) {
+        var companyToRename = _transportCompanies.FirstOrDefault(t => t.Name == newName);
+        if (companyToRename is null) {
+            return ErrFactory.NotFound("Company not fount");
+        }
+
+        if (TransportCompanyRules.CheckCompanyNameForErrs(newName).IsErr(out var err)) {
+            return err;
+        }
+
+        if (companyToRename.Name == newName) {
+            return ErrFactory.Unspecified("New name must differ from the old one");
+        }
+
+        if (_transportCompanies.Any(s => s.Name == newName && s.Id != transportCompanyId)) {
+            return ErrFactory.Conflict("You cannot have more than one company with the same name");
+        }
+
+        var renameRes = companyToRename.Rename(newName);
+        if (renameRes.IsErr(out err)) {
+            return err;
+        }
+
+        return companyToRename.Name;
     }
 }

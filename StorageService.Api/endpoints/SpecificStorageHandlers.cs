@@ -4,12 +4,14 @@ namespace StorageService.Api.endpoints;
 internal static class SpecificStorageHandlers
 {
     internal static IEndpointRouteBuilder MapSpecificStorageHandlers(this RouteGroupBuilder endpoints) {
+        // endpoints.MapGet("/products-with-count", GetProductsCount)
+        //     .WithAdminAuthRequired();
         // endpoints.MapGet("/products-count", GetProductsCount)
         //     .WithAdminAuthRequired();
         
-        //add
-        //remove
-        
+        //add-products eg 10 of id ... 
+        //remove-products
+        //delete (only if no products)
         return endpoints;
     }
     

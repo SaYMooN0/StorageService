@@ -14,4 +14,8 @@ public static class ErrPresets
     public static Err ProductNotFound(ProductId id) => ErrFactory.NotFound(
         "Product not found", details: $"Cannot find product with id {id}"
     );
+
+    public static Err AdminNotFound(CompanyAdminId id) => ErrFactory.NotFound(
+        "Admin not found", details: $"Admin account with id {id} does not exist"
+    );
 }
