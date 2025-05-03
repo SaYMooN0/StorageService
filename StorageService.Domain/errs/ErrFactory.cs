@@ -1,4 +1,4 @@
-﻿namespace StorageService.Domain.errs.utils;
+﻿namespace StorageService.Domain.errs;
 
 public static class ErrFactory
     {
