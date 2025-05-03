@@ -70,4 +70,22 @@ public static class HttpContextExtensions
             );
         }
     }
+
+    public static ProductId GetProductIdFromRoute(this HttpContext context) {
+        var productIdString = context.Request.RouteValues["productId"]?.ToString() ?? "";
+        if (!Guid.TryParse(productIdString, out var guid)) {
+            throw new Exception($"Couldn't parse product id from route. Given value: {productIdString}");
+        }
+
+        return new ProductId(guid);
+    }
+
+    public static StorageId GetStorageIdFromRoute(this HttpContext context) {
+        var productIdString = context.Request.RouteValues["storageId"]?.ToString() ?? "";
+        if (!Guid.TryParse(productIdString, out var guid)) {
+            throw new Exception($"Couldn't parse storage id from route. Given value: {productIdString}");
+        }
+
+        return new StorageId(guid);
+    }
 }

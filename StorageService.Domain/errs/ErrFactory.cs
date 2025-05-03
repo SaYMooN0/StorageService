@@ -5,9 +5,6 @@ public static class ErrFactory
         public static Err Unspecified(string message = "Unspecified error", string? details = null) =>
             new(message, Err.ErrCodes.Unspecified, details);
 
-        public static Err NotImplemented(string message = "Not Implemented", string? details = null) =>
-            new(message, Err.ErrCodes.NotImplemented, details);
-
         // Validation
         public static Err InvalidData(string message = "Invalid data", string? details = null) =>
             new(message, Err.ErrCodes.InvalidData, details);

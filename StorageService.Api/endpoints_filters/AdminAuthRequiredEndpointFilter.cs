@@ -1,5 +1,4 @@
-﻿using ApiShared;
-using StorageService.Api.extensions;
+﻿using StorageService.Api.extensions;
 using StorageService.Domain.errs;
 
 namespace StorageService.Api.endpoints_filters;

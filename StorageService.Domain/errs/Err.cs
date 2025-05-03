@@ -37,7 +37,6 @@ public class Err
     public static class ErrCodes
     {
         public const ushort Unspecified = 0;
-        public const ushort NotImplemented = 1;
 
         // Validation
         public const ushort InvalidData = 1101;

@@ -8,16 +8,18 @@ public class ProductRecord : Entity<ProductRecordId>
     private ProductRecord() { }
     public Product Product { get; }
     public ProductId ProductId { get; }
+    public StorageId StorageId { get; }
     public uint Count { get; private set; }
 
-    private ProductRecord(ProductRecordId id, ProductId productId, uint count) {
+    private ProductRecord(ProductRecordId id, ProductId productId, StorageId storageId, uint count) {
         Id = id;
         ProductId = productId;
         Count = count;
+        StorageId = storageId;
     }
 
-    public static ProductRecord Create(ProductId productId, uint count) =>
-        new(ProductRecordId.CreateNew(), productId, count);
+    public static ProductRecord Create(ProductId productId, StorageId storageId, uint count) =>
+        new(ProductRecordId.CreateNew(), productId, storageId, count);
 
 
     public void AddCount(uint count) => Count += count;

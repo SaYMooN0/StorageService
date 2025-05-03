@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StorageService.Domain.entities;
+using StorageService.Infrastructure.persistence.configurations.value_converters;
 
 namespace StorageService.Infrastructure.persistence.configurations.entities_configurations;
 
@@ -13,5 +14,13 @@ internal class ProductConfigurations : IEntityTypeConfiguration<Product>
             .Property(x => x.Id)
             .ValueGeneratedNever()
             .HasGuidBasedIdConversion();
+
+        builder.Property(x => x.Name);
+        builder.Property(x => x.Description);
+        
+        builder
+            .Property(x => x.Props)
+            .HasConversion<ImmutableDictionaryDictionaryConverter>()
+            .HasColumnType("jsonb");
     }
 }

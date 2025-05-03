@@ -22,5 +22,17 @@ internal  class StorageConfigurations: IEntityTypeConfiguration<Storage>
             .Property(x => x.AdminId)
             .ValueGeneratedNever()
             .HasGuidBasedIdConversion();
+        
+        builder
+            .HasMany<ProductRecord>("_products")
+            .WithOne()
+            .HasForeignKey(x => x.StorageId); 
+        
+        builder
+            .HasMany<ProductCountChangedRecord>("_productCountChangedHistory")
+            .WithOne()
+            .HasForeignKey(x => x.StorageId); 
+        
+       
     }
 }

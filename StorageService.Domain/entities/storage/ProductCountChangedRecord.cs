@@ -8,12 +8,14 @@ public class ProductCountChangedRecord : Entity<ProductCountChangedRecordId>
     public ProductCountChangedType Type { get; }
     public DateTime DateTime { get; }
     public ProductId ProductId { get; }
+    public StorageId StorageId { get; }
     public uint Count { get; }
 
     private ProductCountChangedRecord(
         ProductCountChangedRecordId id,
-        DateTime dateTime,
+        StorageId storageId,
         ProductId productId,
+        DateTime dateTime,
         ProductCountChangedType type,
         uint count
     ) {
@@ -21,10 +23,14 @@ public class ProductCountChangedRecord : Entity<ProductCountChangedRecordId>
         ProductId = productId;
         Type = type;
         Count = count;
+        StorageId = storageId;
     }
 
-    public static ProductCountChangedRecord CreateNew(ProductId productId, ProductCountChangedType type, uint count) =>
-        new(ProductCountChangedRecordId.CreateNew(), DateTime.Now, productId, type, count);
+    public static ProductCountChangedRecord CreateNew(
+        StorageId storageId, ProductId productId, ProductCountChangedType type, uint count
+    ) => new(
+        ProductCountChangedRecordId.CreateNew(), storageId, productId, DateTime.Now, type, count
+    );
 }
 
 public enum ProductCountChangedType

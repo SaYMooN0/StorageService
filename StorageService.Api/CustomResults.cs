@@ -1,7 +1,7 @@
 ﻿using StorageService.Api.extensions;
 using StorageService.Domain.errs;
 
-namespace ApiShared;
+namespace StorageService.Api;
 
 public class CustomResults
 {

@@ -1,6 +1,6 @@
 ﻿using StorageService.Domain.rules;
 
-namespace StorageService.Api.contracts;
+namespace StorageService.Api.contracts.admin;
 
 internal class RegisterCompanyAdminRequest : IRequestWithValidationNeeded
 {

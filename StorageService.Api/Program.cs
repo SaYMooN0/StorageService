@@ -1,5 +1,7 @@
+using Microsoft.OpenApi.Models;
 using StorageService.Api.endpoints;
 using StorageService.Api.extensions;
+using StorageService.Infrastructure.persistence;
 
 namespace StorageService.Api;
 
@@ -15,7 +17,7 @@ public class Program
 
         builder.Services.AddProblemDetails();
         builder.Services.AddOpenApi();
-        
+
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment()) {
@@ -30,7 +32,7 @@ public class Program
         //     var db = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
         //     db.Database.EnsureDeleted();
         //     db.Database.EnsureCreated();
-        // 
+        //
         //     db.SaveChanges();
         // }
 
@@ -39,8 +41,12 @@ public class Program
     }
 
     private static void MapHandlers(WebApplication app) {
-        app.MapGroup("/admins").MapCompanyAdminsHandlers();
-        app.MapGroup("/storages").MapStoragesHandlers();
-        app.MapGroup("/storages/{storageId}").MapSpecificStorageHandlers();
+        app.MapGroup("/admins/").MapCompanyAdminsHandlers();
+        
+        app.MapGroup("/storages/").MapStoragesHandlers();
+        app.MapGroup("/storages/{storageId}/").MapSpecificStorageHandlers();
+        
+        app.MapGroup("/products/").MapProductsHandlers();
+        app.MapGroup("/products/{productId}/").MapSpecificProductHandlers();
     }
 }

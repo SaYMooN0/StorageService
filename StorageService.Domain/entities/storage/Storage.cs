@@ -34,20 +34,16 @@ public class Storage : Entity<StorageId>
     public uint AddProduct(ProductId productId, uint count) {
         ProductRecord? record = _products.FirstOrDefault(p => p.Id == productId);
         if (record is null) {
-            _products.Add(ProductRecord.Create(productId, count));
+            _products.Add(ProductRecord.Create(productId, Id, count));
             _productCountChangedHistory.Add(ProductCountChangedRecord.CreateNew(
-                productId,
-                ProductCountChangedType.Added,
-                count
+                Id, productId, ProductCountChangedType.Added, count
             ));
             return count;
         }
 
         record.AddCount(count);
         _productCountChangedHistory.Add(ProductCountChangedRecord.CreateNew(
-            productId,
-            ProductCountChangedType.Added,
-            count
+            Id, productId, ProductCountChangedType.Added, count
         ));
         return record.Count;
     }

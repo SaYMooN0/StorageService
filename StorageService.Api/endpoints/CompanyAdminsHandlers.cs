@@ -1,5 +1,4 @@
-﻿using ApiShared;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using StorageService.Api.contracts;
 using StorageService.Api.contracts.admin;
 using StorageService.Api.extensions;
@@ -34,7 +33,7 @@ internal static class CompanyAdminsHandlers
             .Include(p => EF.Property<List<TransportCompany>>(p, "_transportCompanies"))
             .FirstOrDefaultAsync(a => a.Id == id);
         if (admin is null) {
-            return CustomResults.ErrorResponse(ErrFactory.NotFound("Unknown admin account not found"));
+            return CustomResults.ErrorResponse(ErrFactory.NotFound("Admin account not found"));
         }
 
         return Results.Json(AdminInfoResponse.FromAdmin(admin));

@@ -9,7 +9,8 @@ public class TransportCompanyRules
         MaxNameLength = 60;
 
     public static ErrOrNothing CheckCompanyNameForErrs(string? name) {
-        int nameLength = name?.Length ?? 0;
+        int nameLength = string.IsNullOrWhiteSpace(name) ? 0 : name.Length;
+
         if (nameLength < MinNameLength || nameLength > MaxNameLength) {
             return ErrFactory.InvalidData(
                 $"Incorrect transport company name length. Company name length must be between {MinNameLength} and {MaxNameLength} characters",

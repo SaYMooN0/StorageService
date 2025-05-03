@@ -13,7 +13,7 @@ public class CompanyAdminRules
         MaxPasswordLength = 50;
 
     public static ErrOrNothing CheckAdminNameForErr(string? name) {
-        int nameLength = name?.Length ?? 0;
+        int nameLength = string.IsNullOrWhiteSpace(name) ? 0 : name.Length;
         if (nameLength < MinNameLength || nameLength > MaxNameLength) {
             return ErrFactory.InvalidData(
                 $"Incorrect name length. Name length must be between {MinNameLength} and {MaxNameLength} characters",
@@ -23,10 +23,11 @@ public class CompanyAdminRules
 
         return ErrOrNothing.Nothing;
     }
+
     public static ErrOrNothing CheckPasswordForErr(string password) {
         int passwordLength = string.IsNullOrEmpty(password) ? 0 : password.Length;
         if (passwordLength < MinPasswordLength || passwordLength > MaxPasswordLength)
-            return ErrFactory.IncorrectFormat( "Password must be between 8 and 20 characters");
+            return ErrFactory.IncorrectFormat("Password must be between 8 and 20 characters");
 
         if (!password.Any(char.IsLetter)) {
             return ErrFactory.IncorrectFormat("Password must contain at least one letter");

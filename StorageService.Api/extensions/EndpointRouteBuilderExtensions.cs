@@ -14,4 +14,10 @@ public static class EndpointRouteBuilderExtensions
     public static RouteHandlerBuilder WithAdminAuthRequired(this RouteHandlerBuilder builder) {
         return builder.AddEndpointFilter<AdminAuthRequiredEndpointFilter>();
     }
+    public static RouteHandlerBuilder WithAccessToAdminStorageRequired(this RouteHandlerBuilder builder) {
+        return builder.AddEndpointFilter<CheckAccessToAdminStorageEndpointFilter>();
+    } 
+    public static RouteHandlerBuilder WithAccessToAdminTransportCompanyRequired(this RouteHandlerBuilder builder) {
+        return builder.AddEndpointFilter<CheckAccessToAdminTransportCompanyEndpointFilter>();
+    }
 }

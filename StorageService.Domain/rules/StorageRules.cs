@@ -9,7 +9,8 @@ public static class StorageRules
         MaxNameLength = 60;
 
     public static ErrOrNothing CheckStorageNameForErrs(string? name) {
-        int nameLength = name?.Length ?? 0;
+        int nameLength = string.IsNullOrWhiteSpace(name) ? 0 : name.Length;
+
         if (nameLength < MinNameLength || nameLength > MaxNameLength) {
             return ErrFactory.InvalidData(
                 $"Incorrect storage name length. Storage name length must be between {MinNameLength} and {MaxNameLength} characters",
