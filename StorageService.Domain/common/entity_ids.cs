@@ -1,8 +1,8 @@
 ﻿namespace StorageService.Domain.common;
 
-public class StorageAdminId(Guid value) : GuidBasedId(value)
+public class CompanyAdminId(Guid value) : GuidBasedId(value)
 {
-    public static StorageAdminId CreateNew() => new(Guid.CreateVersion7());
+    public static CompanyAdminId CreateNew() => new(Guid.CreateVersion7());
 }
 
 public class StorageId(Guid value) : GuidBasedId(value)
@@ -14,11 +14,14 @@ public class TransportCompanyId(Guid value) : GuidBasedId(value)
 {
     public static TransportCompanyId CreateNew() => new(Guid.CreateVersion7());
 }
-public class TransportRouteId(Guid value) : GuidBasedId(value)
-{
-    public static TransportRouteId CreateNew() => new(Guid.CreateVersion7());
-}
 public class ProductId(Guid value) : GuidBasedId(value)
 {
-    public static TransportRouteId CreateNew() => new(Guid.CreateVersion7());
+    public static ProductId CreateNew() => new(Guid.CreateVersion7());
+}
+public class ProductCountChangedRecordId(Guid value) : GuidBasedId(value)
+{
+    public static ProductCountChangedRecordId CreateNew() => new(Guid.CreateVersion7());
+}public class ProductRecordId(Guid value) : GuidBasedId(value)
+{
+    public static ProductRecordId CreateNew() => new(Guid.CreateVersion7());
 }

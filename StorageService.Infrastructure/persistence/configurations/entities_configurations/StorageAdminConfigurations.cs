@@ -4,9 +4,9 @@ using StorageService.Domain.entities;
 
 namespace StorageService.Infrastructure.persistence.configurations.entities_configurations;
 
-internal  class StorageAdminConfigurations: IEntityTypeConfiguration<StorageAdmin>
+internal  class StorageAdminConfigurations: IEntityTypeConfiguration<CompanyAdmin>
 {
-    public void Configure(EntityTypeBuilder<StorageAdmin> builder) {
+    public void Configure(EntityTypeBuilder<CompanyAdmin> builder) {
         builder
             .HasKey(x => x.Id);
         builder

@@ -11,7 +11,7 @@ public class Program
 
         builder.Services.AddOpenApi();
         builder.Services
-            .AddAuthConfig(builder.Configuration)
+            .AddAuthRelatedServices(builder.Configuration)
             .AddPersistence(builder.Configuration)
             .AddDateTimeService();
 
@@ -31,12 +31,13 @@ public class Program
             // db.AppUsers.Add(new(new(new("0196405c-0c03-7520-8da6-d17cdc334ba7"))));
             db.SaveChanges();
         }
-        
+
         MapHandlers(app);
         app.Run();
     }
 
     private static void MapHandlers(WebApplication app) {
+        app.MapGroup("/admins").MapCompanyAdminsHandlers();
         app.MapGroup("/storages").MapStoragesHandlers();
         app.MapGroup("/storages/{storageId}").MapSpecificStorageHandlers();
     }
