@@ -26,7 +26,7 @@ internal static class StoragesHandlers
         var adminId = httpContext.GetAuthenticatedAdminId();
         var request = httpContext.GetValidatedRequest<CreateNewStorageRequest>();
         var admin = await dbContext.Admins
-            .Include(p => EF.Property<List<Storage>>(p, "_storages"))
+            .WithStorages()
             .FirstOrDefaultAsync(p => p.Id == adminId);
 
         if (admin is null) {

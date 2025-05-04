@@ -28,7 +28,7 @@ internal static class TransportCompaniesHandlers
         var request = httpContext.GetValidatedRequest<TransportCompanyNameSetRequest>();
 
         var admin = await dbContext.Admins
-            .Include(p => EF.Property<List<TransportCompany>>(p, "_transportCompanies"))
+            .WithTransportCompanies()
             .FirstOrDefaultAsync(p => p.Id == adminId);
 
         if (admin is null) {

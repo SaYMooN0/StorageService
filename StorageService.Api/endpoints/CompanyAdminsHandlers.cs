@@ -30,8 +30,8 @@ internal static class CompanyAdminsHandlers
         CompanyAdminId id = httpContext.GetAuthenticatedAdminId();
 
         CompanyAdmin? admin = await dbContext.Admins
-            .Include(p => EF.Property<List<Storage>>(p, "_storages"))
-            .Include(p => EF.Property<List<TransportCompany>>(p, "_transportCompanies"))
+            .WithStorages()
+            .WithTransportCompanies()
             .FirstOrDefaultAsync(a => a.Id == id);
         if (admin is null) {
             return CustomResults.ErrorResponse(ErrFactory.NotFound("Admin account not found"));

@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using StorageService.Api.contracts.transport_companies;
 using StorageService.Api.extensions;
 using StorageService.Domain.common;
-using StorageService.Domain.entities;
-using StorageService.Domain.entities.storage;
 using StorageService.Domain.entities.transport_company;
 using StorageService.Domain.errs;
 using StorageService.Infrastructure.persistence;
@@ -15,6 +13,10 @@ internal static class SpecificTransportCompanyHandlers
 {
     internal static IEndpointRouteBuilder MapSpecificTransportCompanyHandlers(this RouteGroupBuilder endpoints) {
         endpoints.MapGet("/", GetTransportCompanyInfo);
+
+        endpoints.MapGet("/history", GetTransportHistory)
+            .WithAdminAuthRequired()
+            .WithAccessToAdminTransportCompanyRequired();
 
         endpoints.MapPatch("/rename", RenameTransportCompany)
             .WithAdminAuthRequired()
@@ -53,6 +55,25 @@ internal static class SpecificTransportCompanyHandlers
         });
     }
 
+    private static async Task<IResult> GetTransportHistory(
+        HttpContext httpContext,
+        AppDbContext dbContext,
+        [FromRoute(Name = "transportCompanyId")]
+        string _
+    ) {
+        var companyId = httpContext.GetTransportCompanyIdFromRoute();
+
+        var history = await dbContext.TransportationRecords
+            .Where(r => r.TransportCompanyId == companyId)
+            .OrderByDescending(r => r.TransportedAt)
+            .ToListAsync();
+
+        var data = history
+            .Select(TransportationRecordDataResponse.FromEntity)
+            .ToList();
+        return Results.Json(new { Records = data });
+    }
+
     private static async Task<IResult> RenameTransportCompany(
         HttpContext httpContext,
         AppDbContext dbContext,
@@ -64,7 +85,7 @@ internal static class SpecificTransportCompanyHandlers
         var request = httpContext.GetValidatedRequest<TransportCompanyNameSetRequest>();
 
         var admin = await dbContext.Admins
-            .Include(p => EF.Property<List<TransportCompany>>(p, "_transportCompanies"))
+            .WithTransportCompanies()
             .FirstOrDefaultAsync(p => p.Id == adminId);
 
         if (admin is null) {
@@ -114,13 +135,13 @@ internal static class SpecificTransportCompanyHandlers
         var destinationId = new StorageId(Guid.Parse(request.DestinationStorageId));
 
         var source = await dbContext.Storages
-            .Include(s => EF.Property<List<ProductRecord>>(s, "_products"))
-            .Include(s => EF.Property<List<ProductCountChangedRecord>>(s, "_productCountChangedHistory"))
+            .WithProductRecords()
+            .WithProductCountHistory()
             .FirstOrDefaultAsync(s => s.Id == sourceId);
 
         var destination = await dbContext.Storages
-            .Include(s => EF.Property<List<ProductRecord>>(s, "_products"))
-            .Include(s => EF.Property<List<ProductCountChangedRecord>>(s, "_productCountChangedHistory"))
+            .WithProductRecords()
+            .WithProductCountHistory()
             .FirstOrDefaultAsync(s => s.Id == destinationId);
 
         if (source is null || destination is null) {

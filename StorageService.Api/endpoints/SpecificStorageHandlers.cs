@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using StorageService.Api.contracts.storages;
 using StorageService.Api.extensions;
 using StorageService.Domain.common;
-using StorageService.Domain.entities.storage;
 using StorageService.Domain.errs;
 using StorageService.Infrastructure.persistence;
 
@@ -19,6 +18,9 @@ internal static class SpecificStorageHandlers
         endpoints.MapGet("/products-full-with-count", GetProductsFullInfoWithCount)
             .WithAccessToViewProductsInStorageRequired();
 
+        endpoints.MapGet("/history", GetStorageHistory)
+            .WithAdminAuthRequired()
+            .WithAccessToAdminStorageRequired();
 
         endpoints.MapPost("/add-product", AddProductToStorage)
             .WithAdminAuthRequired()
@@ -102,6 +104,24 @@ internal static class SpecificStorageHandlers
         return Results.Json(new { Count = count });
     }
 
+    private static async Task<IResult> GetStorageHistory(
+        HttpContext httpContext,
+        AppDbContext dbContext,
+        [FromRoute(Name = "storageId")] string _
+    ) {
+        var storageId = httpContext.GetStorageIdFromRoute();
+
+        var history = await dbContext.ProductCountChangedRecords
+            .Where(r => r.StorageId == storageId)
+            .OrderByDescending(r => r.DateTime)
+            .ToListAsync();
+
+        var data = history
+            .Select(StorageProductCountChangeResponse.FromEntity)
+            .ToArray();
+        return Results.Json(new { Changes = data });
+    }
+
     private static async Task<IResult> AddProductToStorage(
         HttpContext httpContext,
         AppDbContext dbContext,
@@ -111,8 +131,8 @@ internal static class SpecificStorageHandlers
         var request = httpContext.GetValidatedRequest<ChangeProductCountRequest>();
 
         var storage = await dbContext.Storages
-            .Include(s => EF.Property<List<ProductRecord>>(s, "_products"))
-            .Include(s => EF.Property<List<ProductCountChangedRecord>>(s, "_productCountChangedHistory"))
+            .WithProductRecords()
+            .WithProductCountHistory()
             .FirstOrDefaultAsync(s => s.Id == storageId);
 
         if (storage is null)
@@ -133,8 +153,8 @@ internal static class SpecificStorageHandlers
         var request = httpContext.GetValidatedRequest<ChangeProductCountRequest>();
 
         var storage = await dbContext.Storages
-            .Include(s => EF.Property<List<ProductRecord>>(s, "_products"))
-            .Include(s => EF.Property<List<ProductCountChangedRecord>>(s, "_productCountChangedHistory"))
+            .WithProductRecords()
+            .WithProductCountHistory()
             .FirstOrDefaultAsync(s => s.Id == storageId);
 
         if (storage is null) {

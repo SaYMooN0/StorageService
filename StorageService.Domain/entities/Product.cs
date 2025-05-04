@@ -27,7 +27,7 @@ public class Product : Entity<ProductId>
         string name,
         string? description,
         ImmutableDictionary<string, string> props
-    ) {
+    ) {     
         if (ProductRules.CheckNameForErrs(name).IsErr(out var err)) {
             return err;
         }
