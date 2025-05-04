@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StorageService.Domain.entities;
 using StorageService.Domain.entities.storage;
+using StorageService.Domain.entities.transport_company;
 
 namespace StorageService.Infrastructure.persistence.configurations.entities_configurations;
 

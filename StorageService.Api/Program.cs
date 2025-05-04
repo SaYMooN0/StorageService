@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using StorageService.Api.endpoints;
 using StorageService.Api.extensions;
@@ -17,6 +18,9 @@ public class Program
 
         builder.Services.AddProblemDetails();
         builder.Services.AddOpenApi();
+        builder.Services.ConfigureHttpJsonOptions(options => {
+            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
 
         var app = builder.Build();
 
@@ -42,11 +46,14 @@ public class Program
 
     private static void MapHandlers(WebApplication app) {
         app.MapGroup("/admins/").MapCompanyAdminsHandlers();
-        
+
         app.MapGroup("/storages/").MapStoragesHandlers();
         app.MapGroup("/storages/{storageId}/").MapSpecificStorageHandlers();
-        
+
         app.MapGroup("/products/").MapProductsHandlers();
         app.MapGroup("/products/{productId}/").MapSpecificProductHandlers();
+        
+        app.MapGroup("/transport-companies/").MapTransportCompaniesHandlers();
+        app.MapGroup("/transport-companies/{transportCompanyId}/").MapSpecificTransportCompanyHandlers();
     }
 }

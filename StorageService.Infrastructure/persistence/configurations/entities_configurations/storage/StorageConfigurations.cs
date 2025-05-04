@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using StorageService.Domain.entities;
 using StorageService.Domain.entities.storage;
 
-namespace StorageService.Infrastructure.persistence.configurations.entities_configurations;
+namespace StorageService.Infrastructure.persistence.configurations.entities_configurations.storage;
 
 internal  class StorageConfigurations: IEntityTypeConfiguration<Storage>
 {

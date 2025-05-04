@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace StorageService.Infrastructure.persistence.configurations.value_converters;
 
-public class ImmutableDictionaryDictionaryConverter : ValueConverter<ImmutableDictionary<string, string>, string>
+public class ImmutableDictionaryConverter : ValueConverter<ImmutableDictionary<string, string>, string>
 {
-    public ImmutableDictionaryDictionaryConverter() : base(
+    public ImmutableDictionaryConverter() : base(
         v => ToJson(v),
         v => FromJson(v)
     ) { }

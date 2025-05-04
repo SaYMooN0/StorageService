@@ -1,5 +1,6 @@
 ﻿using StorageService.Domain.entities;
 using StorageService.Domain.entities.storage;
+using StorageService.Domain.entities.transport_company;
 
 namespace StorageService.Api.contracts.admin;
 

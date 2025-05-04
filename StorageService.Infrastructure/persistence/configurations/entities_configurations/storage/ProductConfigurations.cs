@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StorageService.Domain.entities;
 using StorageService.Infrastructure.persistence.configurations.value_converters;
 
-namespace StorageService.Infrastructure.persistence.configurations.entities_configurations;
+namespace StorageService.Infrastructure.persistence.configurations.entities_configurations.storage;
 
 internal class ProductConfigurations : IEntityTypeConfiguration<Product>
 {
@@ -20,7 +20,7 @@ internal class ProductConfigurations : IEntityTypeConfiguration<Product>
         
         builder
             .Property(x => x.Props)
-            .HasConversion<ImmutableDictionaryDictionaryConverter>()
+            .HasConversion<ImmutableDictionaryConverter>()
             .HasColumnType("jsonb");
     }
 }

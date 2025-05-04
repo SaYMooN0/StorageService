@@ -20,4 +20,7 @@ public static class EndpointRouteBuilderExtensions
     public static RouteHandlerBuilder WithAccessToAdminTransportCompanyRequired(this RouteHandlerBuilder builder) {
         return builder.AddEndpointFilter<CheckAccessToAdminTransportCompanyEndpointFilter>();
     }
+    public static RouteHandlerBuilder WithAccessToViewProductsInStorageRequired(this RouteHandlerBuilder builder) {
+        return builder.AddEndpointFilter<CheckStorageProductAccessEndpointFilter>();
+    }
 }

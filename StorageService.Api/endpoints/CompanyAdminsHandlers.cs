@@ -6,6 +6,7 @@ using StorageService.Api.services;
 using StorageService.Domain.common;
 using StorageService.Domain.entities;
 using StorageService.Domain.entities.storage;
+using StorageService.Domain.entities.transport_company;
 using StorageService.Domain.errs;
 using StorageService.Infrastructure.persistence;
 

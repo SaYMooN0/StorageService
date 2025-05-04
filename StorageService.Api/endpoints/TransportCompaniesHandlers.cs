@@ -2,6 +2,7 @@
 using StorageService.Api.contracts.transport_companies;
 using StorageService.Api.extensions;
 using StorageService.Domain.entities;
+using StorageService.Domain.entities.transport_company;
 using StorageService.Infrastructure.persistence;
 
 namespace StorageService.Api.endpoints;

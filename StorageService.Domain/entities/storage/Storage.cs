@@ -11,14 +11,19 @@ public class Storage : Entity<StorageId>
     private readonly List<ProductCountChangedRecord> _productCountChangedHistory;
     private readonly List<ProductRecord> _products;
     public CompanyAdminId AdminId { get; }
+    public StorageProductAccessLevel ProductAccessLevel { get; private set; }
     public DateTime CreatedAt { get; }
 
-    private Storage(StorageId id, CompanyAdminId adminId, string name, DateTime createdAt) {
+    private Storage(
+        StorageId id, CompanyAdminId adminId, string name,
+        StorageProductAccessLevel productAccessLevel, DateTime createdAt
+    ) {
         Id = id;
         AdminId = adminId;
         Name = name;
         _productCountChangedHistory = [];
         _products = [];
+        ProductAccessLevel = productAccessLevel;
         CreatedAt = createdAt;
     }
 
@@ -27,7 +32,9 @@ public class Storage : Entity<StorageId>
             return err;
         }
 
-        return new Storage(StorageId.CreateNew(), adminId, name, DateTime.UtcNow);
+        return new Storage(
+            StorageId.CreateNew(), adminId, name, StorageProductAccessLevel.OnlyOwner, DateTime.UtcNow
+        );
     }
 
 
@@ -46,5 +53,23 @@ public class Storage : Entity<StorageId>
             Id, productId, ProductCountChangedType.Added, count
         ));
         return record.Count;
+    }
+
+    public ErrOr<uint> RemoveProduct(ProductId productId, uint count) {
+        ProductRecord? record = _products.FirstOrDefault(p => p.Id == productId);
+        var current = record?.Count ?? 0;
+        if (current < count) {
+            return ErrFactory.InvalidData($"Not enough product in storage to remove. Current count: current");
+        }
+
+        record.RemoveCount(count);
+        _productCountChangedHistory.Add(ProductCountChangedRecord.CreateNew(
+            Id, productId, ProductCountChangedType.Removed, count
+        ));
+        return record.Count;
+    }
+
+    public void SetProductsAccessLevel(StorageProductAccessLevel accessLevel) {
+        ProductAccessLevel = accessLevel;
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StorageService.Domain.entities.storage;
 
-namespace StorageService.Infrastructure.persistence.configurations.entities_configurations;
+namespace StorageService.Infrastructure.persistence.configurations.entities_configurations.storage;
 
 internal class ProductCountChangedRecordConfigurations: IEntityTypeConfiguration<ProductCountChangedRecord>
 {
